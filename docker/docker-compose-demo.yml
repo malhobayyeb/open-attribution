@@ -9,7 +9,7 @@ name: openattribution-demo
 
 services:
   kafka:
-    image: docker.io/bitnami/apache:3.9.1
+    image: docker.io/apache/kafka:3.9.1
     container_name: kafka
     ports:
       - '9093:9093'
