@@ -9,12 +9,12 @@ name: openattribution
 
 services:
   kafka:
-    image: docker.io/bitnami/kafka:3.9
+    image: docker.io/apache/kafka:3.9.1
     container_name: kafka
     ports:
       - '9093:9093'
     volumes:
-      - 'kafka-volume:/bitnami'
+      - 'kafka-volume:/kafka'
     environment:
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
@@ -26,7 +26,7 @@ services:
       - KAFKA_CFG_LOG_RETENTION_HOURS=672
       - KAFKA_CFG_LOG_RETENTION_BYTES=10737418240 # 10GB, keep until official backup
     healthcheck:
-      test: ['CMD-SHELL', 'kafka-topics.sh --bootstrap-server localhost:9092 --list']
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092"]
       interval: 30s
       timeout: 10s
       retries: 3

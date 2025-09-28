@@ -48,12 +48,12 @@ Docker installs the following services:
 
 #### Kafka
 
-- Image: `docker.io/bitnami/kafka:3.6.2`
+- Image: `docker.io/apache/kafka`
 - Ports: 9092 (internal), 9093 (external)
 
 #### analytics-db: (ClickHouse)
 
-- Image: `clickhouse/clickhouse-server:24.8.4`
+- Image: `clickhouse/clickhouse-server`
 - Ports: 9000, 8123
 - Depends on Kafka
 - Includes custom init scripts and table creation
