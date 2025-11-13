@@ -5,6 +5,7 @@ import logging
 from dash_api.controllers.analytics import OverviewController
 from dash_api.controllers.apps import AppController
 from dash_api.controllers.links import LinkController
+from dash_api.controllers.health import HealthController
 from dash_api.controllers.networks import NetworkController
 from litestar import Litestar
 from litestar.config.cors import CORSConfig
@@ -38,6 +39,7 @@ app = Litestar(
         NetworkController,
         AppController,
         LinkController,
+        HealthController,
     ],
     cors_config=cors_config,
     openapi_config=OpenAPIConfig(
