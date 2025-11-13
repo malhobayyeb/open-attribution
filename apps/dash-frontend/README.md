@@ -20,3 +20,10 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+
+## Configuration
+
+The frontend calls the dashboard backend directly when rendering server routes.
+Set `DASH_BACKEND_BASE_URL` (copy `.env.example` to `.env`) to point at the
+appropriate backend URL for your environment; it defaults to
+`http://dash-backend:8001` for the Docker stack.

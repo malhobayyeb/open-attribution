@@ -1,4 +1,5 @@
 import type { Actions, PageServerLoad } from './$types.js';
+import { dashBackendUrl } from '$lib/server/dashBackend';
 
 export const actions = {
 	deleteApp: async ({ request }) => {
@@ -7,7 +8,7 @@ export const actions = {
 
 		console.log(`Delete app id: ${id}`);
 
-		const response = await fetch(`http://dash-backend:8001/api/networks/${id}`, {
+		const response = await fetch(dashBackendUrl(`/api/networks/${id}`), {
 			method: 'DELETE'
 		});
 
@@ -21,7 +22,7 @@ export const actions = {
 
 export const load: PageServerLoad = async ({}) => {
 	return {
-		respData: fetch(`http://dash-backend:8001/api/apps`)
+		respData: fetch(dashBackendUrl('/api/apps'))
 			.then((resp) => {
 				if (resp.status === 200) {
 					return resp.json();

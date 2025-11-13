@@ -6,6 +6,7 @@ import { domainSchema } from '$schemas';
 import { zod } from 'sveltekit-superforms/adapters';
 
 import { fail } from '@sveltejs/kit';
+import { dashBackendUrl } from '$lib/server/dashBackend';
 
 export const actions = {
 	createClientDomain: async (event) => {
@@ -22,7 +23,7 @@ export const actions = {
 
 		console.log(`Actions: Client Domain: ${domain}`);
 
-		const response = await fetch(`http://dash-backend:8001/api/links/domains/${domain}`, {
+		const response = await fetch(dashBackendUrl(`/api/links/domains/${domain}`), {
 			method: 'POST'
 		});
 
@@ -51,7 +52,7 @@ export const actions = {
 
 		console.log(`Domain db_id: ${id}`);
 
-		const response = await fetch(`http://dash-backend:8001/api/links/domains/${id}`, {
+		const response = await fetch(dashBackendUrl(`/api/links/domains/${id}`), {
 			method: 'DELETE'
 		});
 
@@ -69,7 +70,7 @@ export const actions = {
 
 		console.log(`Link db_id: ${id}`);
 
-		const response = await fetch(`http://dash-backend:8001/api/links/${id}`, {
+		const response = await fetch(dashBackendUrl(`/api/links/${id}`), {
 			method: 'DELETE'
 		});
 
@@ -86,7 +87,7 @@ export const load: PageServerLoad = async ({ parent }) => {
 	const { clientDomains } = await parent();
 
 	return {
-		linksData: fetch(`http://dash-backend:8001/api/links`)
+		linksData: fetch(dashBackendUrl('/api/links'))
 			.then((resp) => {
 				if (resp.status === 200) {
 					return resp.json();

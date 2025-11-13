@@ -1,3 +1,4 @@
+import { dashBackendUrl } from '$lib/server/dashBackend';
 import type { PageServerLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
 
@@ -23,7 +24,7 @@ export const load: PageServerLoad = async ({ parent, url, depends }) => {
 	console.log('Start data fetch: startDate', startDate);
 	console.log('Start data fetch: endDate', endDate);
 	const respData = await fetch(
-		`http://dash-backend:8001/api/overview?start_date=${startDate}&end_date=${endDate}`
+		dashBackendUrl(`/api/overview?start_date=${startDate}&end_date=${endDate}`)
 	);
 
 	depends('app:dates');

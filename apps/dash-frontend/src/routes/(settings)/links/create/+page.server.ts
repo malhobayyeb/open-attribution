@@ -3,6 +3,7 @@ import { redirect } from '@sveltejs/kit';
 import { superValidate, message } from 'sveltekit-superforms';
 import { linkSchema } from '$schemas';
 import { zod } from 'sveltekit-superforms/adapters';
+import { dashBackendUrl } from '$lib/server/dashBackend';
 
 import { fail } from '@sveltejs/kit';
 
@@ -30,7 +31,7 @@ export const actions = {
 
 		console.log(`Form data: ${JSON.stringify(form.data)}`);
 
-		const response = await fetch(`http://dash-backend:8001/api/links/${domain_id}`, {
+		const response = await fetch(dashBackendUrl(`/api/links/${domain_id}`), {
 			method: 'POST',
 			body: JSON.stringify({
 				google_app_id: android_app_id,

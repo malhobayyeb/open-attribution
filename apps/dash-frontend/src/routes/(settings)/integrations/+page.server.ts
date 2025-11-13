@@ -6,6 +6,7 @@ import { networkSchema } from '$schemas';
 import { zod } from 'sveltekit-superforms/adapters';
 
 import { fail } from '@sveltejs/kit';
+import { dashBackendUrl } from '$lib/server/dashBackend';
 
 export const actions = {
 	createCustomIntegration: async (event) => {
@@ -24,7 +25,7 @@ export const actions = {
 		console.log(`Actions: Network Name: ${name} Postback ID: ${postback_id}`);
 
 		const response = await fetch(
-			`http://dash-backend:8001/api/networks/${postback_id}?network_name=${name}`,
+			dashBackendUrl(`/api/networks/${postback_id}?network_name=${name}`),
 			{
 				method: 'POST'
 			}
@@ -55,7 +56,7 @@ export const actions = {
 
 		console.log(`Network id: ${id}`);
 
-		const response = await fetch(`http://dash-backend:8001/api/networks/${id}`, {
+		const response = await fetch(dashBackendUrl(`/api/networks/${id}`), {
 			method: 'DELETE'
 		});
 
@@ -70,7 +71,7 @@ export const actions = {
 
 export const load: PageServerLoad = async ({}) => {
 	return {
-		respData: fetch(`http://dash-backend:8001/api/networks`)
+		respData: fetch(dashBackendUrl('/api/networks'))
 			.then((resp) => {
 				if (resp.status === 200) {
 					return resp.json();

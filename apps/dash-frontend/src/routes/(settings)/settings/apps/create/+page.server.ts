@@ -5,6 +5,7 @@ import { appSchema } from '$schemas';
 import { zod } from 'sveltekit-superforms/adapters';
 
 import { fail } from '@sveltejs/kit';
+import { dashBackendUrl } from '$lib/server/dashBackend';
 
 export const actions = {
 	createApp: async (event) => {
@@ -25,7 +26,7 @@ export const actions = {
 
 		console.log(`Create app Name: ${app_name}, ${app_store}, ${store_id}`);
 
-		const response = await fetch(`http://dash-backend:8001/api/apps/${store_id}`, {
+		const response = await fetch(dashBackendUrl(`/api/apps/${store_id}`), {
 			method: 'POST',
 			body: JSON.stringify({
 				app_name: app_name,
