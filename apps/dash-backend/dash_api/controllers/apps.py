@@ -9,6 +9,7 @@ from config import get_logger
 from litestar import Controller, delete, get, post
 
 from dash_api.models import App, AppData, Apps
+from dash_api.services.cache_refresh import refresh_apps_cache
 
 logger = get_logger(__name__)
 
@@ -102,9 +103,11 @@ class AppController(Controller):
             apple_team_id=apple_team_id,
             google_sha256_fingerprints=google_sha256_fingerprints,
         )
+        refresh_apps_cache()
 
     @delete(path="/{app_id:int}")
     async def delete_app(self: Self, app_id: int) -> None:
         """Handle DELETE request for a list of apps."""
         logger.info(f"{self.path} apps DELETE {app_id=}")
         dbcon.queries.delete_app(app_id)
+        refresh_apps_cache()

@@ -7,6 +7,7 @@ from config import get_logger
 from litestar import Controller, delete, get, post
 
 from dash_api.models import AppLinks, LinkData
+from dash_api.services.cache_refresh import refresh_app_links_cache
 
 logger = get_logger(__name__)
 
@@ -65,12 +66,14 @@ class LinkController(Controller):
             ad_name=data.ad_name,
             web_landing_page=data.web_landing_page,
         )
+        refresh_app_links_cache()
 
     @delete(path="/{link_id:int}")
     async def delete_link(self: Self, link_id: int) -> None:
         """Handle DELETE request for a link."""
         logger.info(f"{self.path} DELETE link {link_id=}")
         dbcon.queries.delete_app_link(link_id=link_id)
+        refresh_app_links_cache()
 
     @get(path="/domains")
     async def domains(self: Self) -> AppLinks:
@@ -98,9 +101,11 @@ class LinkController(Controller):
         domain_url = domain_url.replace("www.", "")
         domain_url = domain_url.removesuffix("/")
         dbcon.queries.insert_client_domains(domain_url=domain_url)
+        refresh_app_links_cache()
 
     @delete(path="/domains/{domain_id:int}")
     async def delete_domain(self: Self, domain_id: int) -> None:
         """Delete a domain from the database."""
         logger.info(f"{self.path} DELETE domain {domain_id=}")
         dbcon.queries.delete_client_domain(domain_id=domain_id)
+        refresh_app_links_cache()

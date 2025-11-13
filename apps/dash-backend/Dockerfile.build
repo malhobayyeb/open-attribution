@@ -4,7 +4,7 @@ FROM python:3.12-slim-bookworm
 WORKDIR /app
 
 # Install the requirements
-RUN pip install --no-cache-dir uvicorn==0.34.0 "litestar[standard]"==2.15.1 clickhouse_connect==0.8.15 confluent_kafka==2.8.2 pandas==2.2.3 sqlalchemy==2.0.38 psycopg2-binary==2.9.10
+RUN pip install --no-cache-dir uvicorn==0.34.0 "litestar[standard]"==2.15.1 clickhouse_connect==0.8.15 confluent_kafka==2.8.2 pandas==2.2.3 sqlalchemy==2.0.38 psycopg2-binary==2.9.10 requests==2.32.3
 
 COPY . /app
 
@@ -12,7 +12,6 @@ COPY . /app
 EXPOSE 8001
 
 CMD ["litestar", "run", "--host", "0.0.0.0", "--port", "8001"]
-
 
 
 
